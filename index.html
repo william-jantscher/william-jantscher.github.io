@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        :root {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --text-primary: #f8f8f8;
+            --text-secondary: #a0a0a0;
+            --accent: #64ffda;
+            --accent-hover: #4dd0bd;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        header {
+            padding: 2rem 0;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            background-color: var(--bg-secondary);
+            padding: 2rem 0;
+            transform: translateX(-200px);
+            transition: transform 0.4s ease;
+            z-index: 1000;
+        }
+        
+        nav:hover {
+            transform: translateX(0);
+        }
+        
+        nav .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            margin: 0 auto 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--bg-primary);
+        }
+        
+        nav ul {
+            list-style: none;
+        }
+        
+        nav ul li {
+            padding: 1rem 2rem;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li:hover, nav ul li.active {
+            border-left: 3px solid var(--accent);
+            background-color: rgba(100, 255, 218, 0.1);
+        }
+        
+        nav ul li a {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: block;
+        }
+        
+        .nav-toggle {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--bg-secondary);
+            padding: 0.5rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            cursor: pointer;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            margin-left: 50px;
+        }
+        
+        .hero {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero h1 span {
+            color: var(--accent);
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--accent);
+            padding: 0.8rem 1.5rem;
+            border: 2px solid var(--accent);
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: rgba(100, 255, 218, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        section {
+            padding: 5rem 0;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent);
+        }
+        
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .project-card {
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .project-img {
+            width: 100%;
+            height: 180px;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+        
+        .project-info {
+            padding: 1.5rem;
+        }
+        
+        .project-info h3 {
+            margin-bottom: 0.8rem;
+            font-size: 1.5rem;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .tech {
+            padding: 0.2rem 0.8rem;
+            background-color: rgba(100, 255, 218, 0.1);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--accent);
+        }
+        
+        .links {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .links a {
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+        
+        .links a:hover {
+            color: var(--accent);
+        }
+        
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+        
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .skill {
+            padding: 0.5rem 1rem;
+            background-color: var(--bg-secondary);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .skill:hover {
+            background-color: var(--accent);
+            color: var(--bg-primary);
+            transform: translateY(-3px);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            background-color: var(--bg-secondary);
+            color: var(--text-secondary);
+        }
+        
+        .social-links {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+            opacity: 0;
+        }
+        
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+        
+        .delay-4 {
+            animation-delay: 0.8s;
+        }
+        
+        /* Cursor animation */
+        .typing {
+            position: relative;
+        }
+        
+        .typing::after {
+            content: "|";
+            position: absolute;
+            right: -15px;
+            animation: blink 0.7s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+        
+        /* Media queries */
+        @media (max-width: 768px) {
+            nav {
+                width: 100%;
+                height: auto;
+                transform: translateY(-100%);
+                top: 0;
+                left: 0;
+            }
+            
+            nav:hover {
+                transform: translateY(0);
+            }
+            
+            .nav-toggle {
+                bottom: -20px;
+                top: auto;
+                left: 50%;
+                transform: translateX(-50%);
+                border-radius: 0 0 0.5rem 0.5rem;
+            }
+            
+            .container {
+                margin-left: 0;
+                padding: 0 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .about {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="avatar">YN</div>
+        <ul>
+            <li class="active"><a href="#home">Home</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-toggle">≡</div>
+    </nav>
+    
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <h1 class="fade-in">Hi, I'm <span class="typing">Your Name</span></h1>
+                <p class="fade-in delay-1">A passionate developer who builds elegant solutions with clean code.</p>
+                <a href="#projects" class="btn fade-in delay-2">View My Work</a>
+            </div>
+        </section>
+        
+        <section id="projects">
+            <div class="container">
+                <h2 class="fade-in">My Projects</h2>
+                <div class="projects">
+                    <!-- Project 1 -->
+                    <div class="project-card fade-in delay-1">
+                        <div class="project-img">Future Project Preview</div>
+                        <div class="project-info">
+                            <h3>Project Title 1</h3>
+                            <p>This is a description of your awesome project. Explain what it does and why it's special.</p>
+                            <div class="tech-stack">
+                                <span class="tech">React</span>
+                                <span class="tech">Node.js</span>
+                                <span class="tech">MongoDB</span>
+                            </div>
+                            <div class="links">
+                                <a href="#" title="View Code">&#60;/&#62;</a>
+                                <a href="#" title="Live Demo">&#128279;</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 2 -->
+                    <div class="project-card fade-in delay-2">
+                        <div class="project-img">Future Project Preview</div>
+                        <div class="project-info">
+                            <h3>Project Title 2</h3>
+                            <p>This is a description of your awesome project. Explain what it does and why it's special.</p>
+                            <div class="tech-stack">
+                                <span class="tech">Vue</span>
+                                <span class="tech">Express</span>
+                                <span class="tech">PostgreSQL</span>
+                            </div>
+                            <div class="links">
+                                <a href="#" title="View Code">&#60;/&#62;</a>
+                                <a href="#" title="Live Demo">&#128279;</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 3 -->
+                    <div class="project-card fade-in delay-3">
+                        <div class="project-img">Future Project Preview</div>
+                        <div class="project-info">
+                            <h3>Project Title 3</h3>
+                            <p>This is a description of your awesome project. Explain what it does and why it's special.</p>
+                            <div class="tech-stack">
+                                <span class="tech">TypeScript</span>
+                                <span class="tech">Firebase</span>
+                                <span class="tech">Tailwind</span>
+                            </div>
+                            <div class="links">
+                                <a href="#" title="View Code">&#60;/&#62;</a>
+                                <a href="#" title="Live Demo">&#128279;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="about">
+            <div class="container">
+                <h2 class="fade-in">About Me</h2>
+                <div class="about">
+                    <div class="about-content fade-in delay-1">
+                        <p>Hello! I'm a dedicated developer passionate about creating exceptional digital experiences. With a strong foundation in both front-end and back-end technologies, I enjoy bringing ideas to life through code.</p>
+                        <p>My journey in tech started [your story here]. I believe in continuous learning and keeping up with the latest industry trends.</p>
+                        <p>When I'm not coding, you'll find me [your interests/hobbies].</p>
+                        <div class="skills">
+                            <span class="skill">JavaScript</span>
+                            <span class="skill">React</span>
+                            <span class="skill">Node.js</span>
+                            <span class="skill">Python</span>
+                            <span class="skill">UI/UX</span>
+                            <span class="skill">Responsive Design</span>
+                        </div>
+                    </div>
+                    <div class="about-image fade-in delay-2">
+                        <div style="width: 100%; height: 400px; background-color: #333; display: flex; justify-content: center; align-items: center; border-radius: 8px;">
+                            Your Photo Here
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact">
+            <div class="container">
+                <h2 class="fade-in">Get In Touch</h2>
+                <p class="fade-in delay-1" style="max-width: 600px; margin-bottom: 2rem; color: var(--text-secondary);">
+                    I'm currently looking for new opportunities. Whether you have a question or just want to say hi, I'll do my best to get back to you!
+                </p>
+                <a href="mailto:your.email@example.com" class="btn fade-in delay-2">Say Hello</a>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#" title="GitHub">GitHub</a>
+                <a href="#" title="LinkedIn">LinkedIn</a>
+                <a href="#" title="Twitter">Twitter</a>
+                <a href="#" title="CodePen">CodePen</a>
+            </div>
+            <p>Designed & Built by Your Name</p>
+            <p>&copy; 2025 All Rights Reserved</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Typing animation
+        const typingElement = document.querySelector('.typing');
+        const text = typingElement.textContent;
+        typingElement.textContent = '';
+        
+        let i = 0;
+        function typeWriter() {
+            if (i < text.length) {
+                typingElement.textContent += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+        
+        // Start typing animation when page loads
+        window.onload = function() {
+            typeWriter();
+            
+            // Add animation to elements when they enter viewport
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        };
+        
+        // Navigation toggle
+        document.querySelector('.nav-toggle').addEventListener('click', function() {
+            const nav = document.querySelector('nav');
+            if (window.innerWidth <= 768) {
+                if (nav.style.transform === 'translateY(0px)') {
+                    nav.style.transform = 'translateY(-100%)';
+                } else {
+                    nav.style.transform = 'translateY(0)';
+                }
+            } else {
+                if (nav.style.transform === 'translateX(0px)') {
+                    nav.style.transform = 'translateX(-200px)';
+                } else {
+                    nav.style.transform = 'translateX(0)';
+                }
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
